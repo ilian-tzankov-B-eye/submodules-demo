@@ -4,3 +4,6 @@
 [submodule "service2"]
 	path = service2
 	url = https://github.com/ilian-tzankov-B-eye/microservices-service2.git
+[submodule "webapp"]
+	path = webapp
+	url = https://github.com/ilian-tzankov-B-eye/microservices-webapp.git
