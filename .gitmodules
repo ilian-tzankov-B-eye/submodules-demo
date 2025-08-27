@@ -1,0 +1,3 @@
+[submodule "service1"]
+	path = service1
+	url = https://github.com/ilian-tzankov-B-eye/microservices-service1.git
