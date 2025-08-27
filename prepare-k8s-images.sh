@@ -52,7 +52,7 @@ load_images() {
         "kind")
             echo -e "\n${YELLOW}📦 Loading images into Kind...${NC}"
             for service in $MODULES; do
-                echo -e "\n${YELLOW}📦 Loading ${service} image into Kind...${NC}"
+                echo -e "\n${YELLOW}📦 Loading ${service} image into Kind...${NC}"cl
                 kind load docker-image microservices-demo/${service}:latest
             done
             echo -e "${GREEN}✅ Images loaded into Kind${NC}"
