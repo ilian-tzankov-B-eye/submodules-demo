@@ -11,6 +11,8 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+MODULES=`grep path .gitmodules | cut -c 9-`
+
 echo -e "${BLUE}🐳 Preparing Docker Images for Kubernetes${NC}"
 echo "============================================="
 
@@ -41,16 +43,18 @@ load_images() {
     case $cluster_type in
         "minikube")
             echo -e "\n${YELLOW}📦 Loading images into Minikube...${NC}"
-            minikube image load microservices-demo/service1:latest
-            minikube image load microservices-demo/service2:latest
-            minikube image load microservices-demo/webapp:latest
+            for service in $MODULES; do
+                echo -e "\n${YELLOW}📦 Loading ${service} image into Minikube...${NC}"
+                minikube image load microservices-demo/${service}:latest
+            done
             echo -e "${GREEN}✅ Images loaded into Minikube${NC}"
             ;;
         "kind")
             echo -e "\n${YELLOW}📦 Loading images into Kind...${NC}"
-            kind load docker-image microservices-demo/service1:latest
-            kind load docker-image microservices-demo/service2:latest
-            kind load docker-image microservices-demo/webapp:latest
+            for service in $MODULES; do
+                echo -e "\n${YELLOW}📦 Loading ${service} image into Kind...${NC}"
+                kind load docker-image microservices-demo/${service}:latest
+            done
             echo -e "${GREEN}✅ Images loaded into Kind${NC}"
             ;;
         "docker-desktop")

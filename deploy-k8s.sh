@@ -11,6 +11,10 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+MODULES=`grep path .gitmodules | cut -c 9-`
+APPLICATIONS="service1-user-management service2-data-processing test-dashboard"
+
+
 echo -e "${BLUE}🚀 Deploying Microservices to Kubernetes${NC}"
 echo "============================================="
 
@@ -38,14 +42,6 @@ fi
 
 echo -e "${GREEN}✅ Kubernetes cluster is accessible${NC}"
 
-# Prepare images for Kubernetes
-echo -e "\n${YELLOW}🐳 Preparing Docker images for Kubernetes...${NC}"
-if [ -f "./prepare-k8s-images.sh" ]; then
-    ./prepare-k8s-images.sh
-else
-    echo -e "${YELLOW}⚠️  Image preparation script not found. Make sure images are available.${NC}"
-fi
-
 # Create namespace
 echo -e "\n${YELLOW}📁 Creating namespace...${NC}"
 if kubectl apply -f k8s/namespace.yaml --validate=false; then
@@ -55,7 +51,7 @@ else
 fi
 
 # Deploy Services and Dashboard
-for service in service1 service2 webapp; do
+for service in $MODULES; do
     echo -e "\n${YELLOW}📦 Deploying ${service}...${NC}"
     if kubectl apply -f ${service}/${service}-deployment.yaml --validate=false; then
         echo -e "${GREEN}✅ ${service} deployed${NC}"
@@ -69,9 +65,9 @@ echo -e "\n${GREEN}🎉 All services deployed successfully!${NC}"
 
 # Wait for pods to be ready
 echo -e "\n${YELLOW}⏳ Waiting for pods to be ready...${NC}"
-for service in service1 service2 webapp; do
-    echo -e "\n${YELLOW}📦 Waiting for ${service} pods to be ready...${NC}"
-    kubectl wait --for=condition=ready pod -l app=${service} -n microservices-demo --timeout=300s
+for application in $APPLICATIONS; do
+    echo -e "\n${YELLOW}📦 Waiting for ${application} pods to be ready...${NC}"
+    kubectl wait --for=condition=ready pod -l app=${application} -n microservices-demo --timeout=300s
 done
 
 echo -e "\n${GREEN}✅ All pods are ready!${NC}"
