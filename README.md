@@ -5,6 +5,19 @@ This project demonstrates two FastAPI services that communicate with each other,
 The two services and web app can run either locally (all 3 on the same IP address pn different ports), or in 3 separate pods in
 K8s. When running in K8s service discovery is used to get the correct pod.
 
+## Submodules demo
+
+Submodules are git repos linked inside a main repo. Submodules are like regular git repo, but it is not on a perticular branch,
+but rather on a specific revision, that will often be behind it's origin. This is the reason that if you commit inside a submodule,
+you will end up in a detached head state, that is hard to reconcile.
+
+In order to update the submodules with the latest changes use the resync-submodules.sh script
+```bash
+./resync-submodules.sh
+```
+This script clears the submodules, **local changes will be lost**. It then moves the submodule HEAD to the local main branch, pulls all changes to the main branch from the origin and commits the changed HEAD in the parent repo.
+
+
 ## Services Overview
 
 ### Service 1 (User Management Service) - Port 8000
