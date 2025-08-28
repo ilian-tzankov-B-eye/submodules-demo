@@ -225,6 +225,28 @@ If you get errors like "connection refused" or "failed to download openapi":
 ### Detailed Instructions
 See [KUBERNETES.md](KUBERNETES.md) for complete deployment guide.
 
+## Remote Debugging
+
+For debugging the services in Kubernetes, see the [Debugging Guide](DEBUGGING.md).
+
+### Quick Debug Setup
+
+```bash
+# Build debug images
+./build-debug-images.sh
+
+# Deploy debug services
+./deploy-k8s-debug.sh
+
+# Set up port forwarding
+./setup-debug-port-forwarding.sh
+```
+
+Then use VS Code's debug configurations to connect to the services:
+- **Service 1**: localhost:5678
+- **Service 2**: localhost:5679  
+- **Webapp**: localhost:5680
+
 ### Docker Images
 - `microservices-demo/service1:latest` - User Management Service
 - `microservices-demo/service2:latest` - Data Processing Service  
